@@ -1,5 +1,7 @@
 
 
+
+
 def peak_element_position(means, demands, supplies):
     min_cnt = 0
     min_mean = means[0][0]
@@ -7,6 +9,8 @@ def peak_element_position(means, demands, supplies):
     for i in range(1, len(means)):
         if means[i][0] == min_mean:
             min_cnt += 1
+
+    # print('min_cnt', min_cnt)
 
     position_li = []
     min_cost = 1e9
@@ -18,6 +22,8 @@ def peak_element_position(means, demands, supplies):
     for i in range(min_cnt + 1):
         li = means[i][3]
         for j in range(len(li)):
+            # print('li', li)
+            # print('min cost', min_cost)
             if li[j] == min_cost:
                 if means[i][2] == 'col':
                     col = means[i][1]
@@ -25,16 +31,19 @@ def peak_element_position(means, demands, supplies):
                 else:
                     row = means[i][1]
                     col = j
+                # print('row, col', row, col)
 
                 supply = supplies[row]
                 demand = demands[col]
                 if demand <= supply:
                     a = demand
+                    b = supply
                 else:
                     a = supply
+                    b = demand
 
                 position = [row, col]
-                position_li.append([a, position])
+                position_li.append([a, b, position])
 
     position_li = sorted(position_li)
     # print(position_li)
@@ -45,6 +54,7 @@ def peak_element_position(means, demands, supplies):
 def brain(costs, demands, supplies):
     f = len(costs)
     s = len(costs[0])
+
     tr_costs = [[costs[j][i] for j in range(f)] for i in range(s)]
 
     means = []
@@ -80,7 +90,7 @@ def brain(costs, demands, supplies):
 
 
 def main():
-    print("Enter Number of Factories and Stories: ")
+    print("Enter Number of Factories and Stores: ")
     f, s = map(int, input().split())
 
     print("Enter the cost Matrix: ")
@@ -104,8 +114,8 @@ def main():
     while d != total_demands:
         position = brain(costs, demands, supplies)
         a = position[0]
-        row = position[1][0]
-        col = position[1][1]
+        row = position[2][0]
+        col = position[2][1]
         total_min_cost += a * costs[row][col]
 
         supply = supplies[row]
@@ -130,11 +140,11 @@ def main():
                         del costs[i][j]
             del demands[col]
 
-        # print("The new cost matrix: ")
-        # print(costs)
-        # print(supplies)
-        # print(demands)
-        # print(total_min_cost)
+        #print("The new cost matrix: ")
+        #print(costs)
+        #print(supplies)
+        #print(demands)
+        #print(total_min_cost)
 
         d += a
 
@@ -142,3 +152,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
