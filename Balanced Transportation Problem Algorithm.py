@@ -1,7 +1,3 @@
-
-
-
-
 def peak_element_position(means, demands, supplies):
     min_cnt = 0
     min_mean = means[0][0]
